@@ -18,68 +18,33 @@ Password='user'
 
 #checking if package installed
 OUTPUT=$(cat /etc/*release)
-REQUIRED_PKG="recode"
-PKG=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG 2>/dev/null| grep "install ok installed")
-
 if [ "$EUID" -ne 0 ]
     then echo "Please run as root"
     exit
 
 elif  echo $OUTPUT | grep -q "CentOS Linux 7" ; then
-    echo -e "\nDetecting Centos 7...\n"
-    yum install wget curl -y 1> /dev/null
-    echo Checking for $REQUIRED_PKG: $PKG
-          if [ "" = "$PKG" ]; then
-              echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-              yum install $REQUIRED_PKG wget curl -y 1> /dev/null
-          fi
+          echo -e "\nDetecting Centos 7...\n"
+    	  yum install wget curl -y 1> /dev/null
 elif echo $OUTPUT | grep -q "CentOS Linux 8" ; then
-     echo -e "\nDetecting Centos 8...\n"
-     yum install wget curl -y 1> /dev/null
-     echo Checking for $REQUIRED_PKG: $PKG
-          if [ "" = "$PKG" ]; then
-              echo -e "\nDetecting Centos 8...\n"
-              echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-              yum install $REQUIRED_PKG wget curl -y 1> /dev/null
-          fi
+     	  echo -e "\nDetecting Centos 8...\n"
+     	  yum install wget curl -y 1> /dev/null
 elif echo $OUTPUT | grep -q "Ubuntu 18.04" ; then
-     echo -e "\nDetecting Ubuntu 18.04...\n"
-     apt install -y -qq -y wget curl &> /dev/null
-     echo Checking for $REQUIRED_PKG: $PKG
-          if [ "" = "$PKG" ]; then
-              echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-              apt install -y -qq -y $REQUIRED_PKG wget curl &> /dev/null
-          fi
+     	  echo -e "\nDetecting Ubuntu 18.04...\n"
+     	  apt install -y -qq -y wget curl &> /dev/null
 elif echo $OUTPUT | grep -q "Ubuntu 20.04" ; then
           echo -e "\nDetecting Ubuntu 20.04...\n"
           apt install -y -qq -y wget curl &> /dev/null
-          echo Checking for $REQUIRED_PKG: $PKG
-               if [ "" = "$PKG" ]; then
-                   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-                   apt install -y -qq -y $REQUIRED_PKG wget curl &> /dev/null
-               fi
 elif echo $OUTPUT | grep -q "Kali *" ; then
           echo -e "\nDetecting Kali Linux...\n"
           apt install -y -qq -y wget curl &> /dev/null
-          echo Checking for $REQUIRED_PKG: $PKG
-               if [ "" = "$PKG" ]; then
-                   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-                   apt install -y -qq -y $REQUIRED_PKG wget curl &> /dev/null
-               fi
 elif echo $OUTPUT | grep -q "Debian *" ; then
           echo -e "\nDetecting Debian...\n"
           apt install -y -qq -y wget curl &> /dev/null
-          echo Checking for $REQUIRED_PKG: $PKG
-               if [ "" = "$PKG" ]; then
-                   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-                   apt install -y -qq -y $REQUIRED_PKG wget curl &> /dev/null
-               fi
 else
-
-                echo -e "\nUnable to detect your OS...\n"
-                echo -e "\nThis script is only supported on Ubuntu 18.04, Ubuntu 20.04, kali linux, CentOS 7.x and CentOS 8.x..."
-                echo -e "\nYou cannot use the connection name !!!"
-                echo -e "\nOr install manually ex : apt get install recode\n"
+          echo -e "\nUnable to detect your OS...\n"
+          echo -e "\nThis script is only supported on Ubuntu 18.04, Ubuntu 20.04, kali linux, CentOS 7.x and CentOS 8.x..."
+          echo -e "\nYou cannot use the connection name !!!"
+          echo -e "\nOr install manually ex : apt get install recode\n"
 fi
 
 # color message
